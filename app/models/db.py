@@ -1,4 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+
 
 import os
 environment = os.getenv("FLASK_ENV")
@@ -13,3 +15,5 @@ def add_prefix_for_prod(attr):
         return f"{SCHEMA}.{attr}"
     else:
         return attr
+
+date_str = str(datetime.now())
