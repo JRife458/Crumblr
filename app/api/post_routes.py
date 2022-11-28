@@ -35,7 +35,7 @@ def create_posts():
 @login_required
 def edit_post(id):
     post = Post.query.get(id)
-    form = PostForm
+    form = PostForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if form.validate_on_submit():

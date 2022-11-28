@@ -14,7 +14,11 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
 
-    posts = db.relationship('Post', back_populates='user')
+    posts = db.relationship('Post', back_populates='user', cascade="all, delete-orphan")
+    # follower = db.relationship('Follow', back_populates='follower')
+    # followee = db.relationship('Follow', back_populates='followee')
+
+
 
     @property
     def password(self):
