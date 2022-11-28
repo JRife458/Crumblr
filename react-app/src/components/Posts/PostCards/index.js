@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {thunkDeletePost} from '../../../store/postsReducer'
+import PostEditForm from "../EditPost";
 
 function PostCards({post}) {
   const sessionState = useSelector((state) => state.session)
@@ -19,6 +20,7 @@ function PostCards({post}) {
       <img src={image} alt="post"></img>}
       {sessionUser?.id === post?.User?.id &&
         <button onClick={deletePost}>Delete Post</button>}
+        <PostEditForm post={post} />
     </div>
   )
 }
