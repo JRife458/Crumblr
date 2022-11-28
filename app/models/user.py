@@ -14,9 +14,10 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
 
+
     posts = db.relationship('Post', back_populates='user', cascade="all, delete-orphan")
-    # follower = db.relationship('Follow', back_populates='follower')
-    # followee = db.relationship('Follow', back_populates='followee')
+    followers = db.relationship('Follow', back_populates='follower')
+    followees = db.relationship('Follow', back_populates='followee')
 
 
 
@@ -35,5 +36,6 @@ class User(db.Model, UserMixin):
         return {
             'id': self.id,
             'username': self.username,
-            'email': self.email
+            'email': self.email,
+            'Following': [followee.to_dict() for followee in self.followees]
         }
