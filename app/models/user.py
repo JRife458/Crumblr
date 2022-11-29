@@ -16,8 +16,18 @@ class User(db.Model, UserMixin):
 
 
     posts = db.relationship('Post', back_populates='user', cascade="all, delete-orphan")
-    followers = db.relationship('Follow', back_populates='follower')
-    followees = db.relationship('Follow', back_populates='followee')
+    followers = db.relationship(
+        'Follow',
+         back_populates='follower',
+         primaryjoin=lambda: User.id == Follow.follower_id,
+         cascade="all, delete-orphan",
+         )
+    followed = db.relationship(
+            'Follow',
+            back_populates='followee',
+            primaryjoin=lambda: User.id == Follow.followee_id,
+            cascade="all, delete-orphan",
+            )
 
 
 
@@ -37,5 +47,25 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'username': self.username,
             'email': self.email,
-            'Following': [followee.to_dict() for followee in self.followees]
+            'Following': [followee.to_dict() for followee in self.followed]
+        }
+
+class Follow(db.Model):
+    __tablename__ = 'follows'
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
+    followee_id = db.Column(db.Integer, db.ForeignKey(
+        add_prefix_for_prod('users.id')), nullable=False, primary_key=True)
+    follower_id = db.Column(db.Integer, db.ForeignKey(
+        add_prefix_for_prod('users.id')), nullable=False, primary_key=True)
+
+    followee = db.relationship('User', back_populates='followed', foreign_keys=[followee_id])
+    follower = db.relationship('User', back_populates='followers', foreign_keys=[follower_id])
+
+    def to_dict(self):
+        return {
+            'followee': self.followee.to_dict(),
+            'follower_id': self.follower_id
         }
