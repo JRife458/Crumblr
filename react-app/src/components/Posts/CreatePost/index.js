@@ -5,6 +5,10 @@ import { useHistory } from "react-router-dom";
 
 import { thunkCreatePost } from "../../../store/postsReducer";
 
+// Demo Post
+
+
+
 function PostCreateForm() {
   const [type, setType] = useState('text')
   const [body, setBody] = useState('')
