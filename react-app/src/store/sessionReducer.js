@@ -19,9 +19,9 @@ const followUser = (user) => ({
   payload: user
 })
 
-const unfollowUser = (user) => ({
+const unfollowUser = (userId) => ({
   type: UNFOLLOW_USER,
-  payload: user
+  payload: userId
 })
 
 const initialState = { user: null };
@@ -132,7 +132,7 @@ export const thunkUnfollowUser = (followeeId) => async (dispatch) => {
   });
   if (response.ok) {
     const unfollowedUser = await response.json()
-    dispatch(unfollowUser(unfollowedUser))
+    dispatch(unfollowUser(followeeId))
     return unfollowedUser
   }
 }
@@ -159,7 +159,7 @@ const sessionReducer = (state = initialState, action) => {
 
     case UNFOLLOW_USER:
       newState = {...state}
-      console.log('payload --------------------', action.payload)
+      delete newState.user.Following[action.payload]
       return newState
 
     default:

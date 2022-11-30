@@ -21,7 +21,7 @@ def seed_posts():
   post4 = Post(
     user_id = 3,
     type = 'text',
-    body = 'In quis minim duis id sunt culpa duis tempor et mollit labore consequat aute dolore. Qui nisi culpa proident id ullamco esse amet aute occaecat commodo deserunt laborum. Consectetur minim adipisicing nisi nostrud laborum magna non Lorem mollit ex proident mollit irure ad. Occaecat reprehenderit mollit nulla tempor irure aliquip officia veniam ullamco Lorem. Do commodo quis do magna deserunt ipsum reprehenderit et cillum eiusmod. Dolor amet cillum irure tempor ea aliquip commodo nulla labore aliquip reprehenderit et. Qui est reprehenderit quis enim commodo.'
+    body = 'In quis minim duis id sunt culpa duis tempor et mollit labore consequat aute dolore. Qui nisi culpa proident id ullamco esse amet aute occaecat commodo deserunt laborum. Consectetur minim adipisicing nisi nostrud laborum magna non Lorem mollit ex proident mollit irure ad. Occaecat reprehenderit mollit nulla tempor irure aliquip officia veniam ullamco Lorem. Do commodo quis do magna deserunt ipsum reprehenderit et cillum eiusmod.'
   )
 
 
