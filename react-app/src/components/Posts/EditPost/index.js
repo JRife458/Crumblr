@@ -17,7 +17,7 @@ function PostEditForm({post}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let errors = []
-    let editedPost = await dispatch(thunkEditPost(
+    await dispatch(thunkEditPost(
       post.id,
       type,
       body,

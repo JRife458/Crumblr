@@ -7,6 +7,10 @@ import PostEditForm from "../EditPost";
 function PostCards({post}) {
   const sessionState = useSelector((state) => state.session)
   const sessionUser = sessionState.user
+  // const follows = Object.keys(sessionUser.Following)
+  let follows = []
+  if (sessionUser?.Following) follows = Object.keys(sessionUser.Following)
+
   let image = post?.url
   const dispatch = useDispatch()
 
@@ -24,14 +28,17 @@ function PostCards({post}) {
 
   return (
     <div>
-      <button onClick={followUser}>Follow User</button>
-      <button onClick={unfollowUser}>Unfollow User</button>
+      {sessionUser && follows.includes(`${post.User.id}`) &&
+      <button onClick={unfollowUser}>Unfollow User</button>}
+      {sessionUser && !follows.includes(`${post.User.id}`) &&
+      <button onClick={followUser}>Follow User</button>}
       <p>{post.body}</p>
       {image &&
       <img src={image} alt="post"></img>}
       {sessionUser?.id === post?.User?.id &&
         <button onClick={deletePost}>Delete Post</button>}
-        <PostEditForm post={post} />
+      {sessionUser?.id === post?.User?.id &&
+        <PostEditForm post={post} />}
     </div>
   )
 }

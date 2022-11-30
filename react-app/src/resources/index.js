@@ -4,8 +4,8 @@ export function normalizeArray(arr) {
   return obj;
 };
 
-export function dateDisplay(date) {
-  let split = date.split(' ')
-  let dateSplit = split[0].split('-')
+// export function dateDisplay(date) {
+//   let split = date.split(' ')
+//   let dateSplit = split[0].split('-')
 
-}
+// }

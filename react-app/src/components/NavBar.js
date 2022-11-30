@@ -27,6 +27,12 @@ const NavBar = () => {
             Sign Up
           </NavLink>
         </li>}
+        {sessionUser &&
+        <li>
+          <NavLink to='/Following' exact={true} activeClassName='active'>
+            Following
+          </NavLink>
+        </li>}
        {sessionUser &&
         <li>
           <LogoutButton />

@@ -14,6 +14,7 @@ function RecentPosts() {
   const allPosts = postsState.posts
   const allPostsArr = Object.values(allPosts).sort((a, b) => b.id - a.id)
 
+
   const dispatch = useDispatch();
 
   useEffect(() => {
