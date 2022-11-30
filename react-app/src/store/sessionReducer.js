@@ -1,6 +1,9 @@
+import { normalizeArray } from "../resources";
 // constants
 const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
+const FOLLOW_USER = 'session/FOLLOW_USER';
+const UNFOLLOW_USER = 'session/UNFOLLOW_USER'
 
 const setUser = (user) => ({
   type: SET_USER,
@@ -9,6 +12,16 @@ const setUser = (user) => ({
 
 const removeUser = () => ({
   type: REMOVE_USER,
+})
+
+const followUser = (user) => ({
+  type: FOLLOW_USER,
+  payload: user
+})
+
+const unfollowUser = (user) => ({
+  type: UNFOLLOW_USER,
+  payload: user
 })
 
 const initialState = { user: null };
@@ -97,17 +110,57 @@ export const signUp = (username, email, password) => async (dispatch) => {
   }
 }
 
+export const thunkFollowUser = (followeeId, followerId) => async (dispatch) => {
+  const response = await fetch(`/api/users/${followeeId}/follow`, {
+    method: 'post',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      followeeId,
+      followerId
+    }),
+  });
+  if (response.ok) {
+    const followedUser = await response.json()
+    dispatch(followUser(followedUser))
+    return followedUser
+  }
+}
+
+export const thunkUnfollowUser = (followeeId) => async (dispatch) => {
+  const response = await fetch(`/api/users/${followeeId}/follow`, {
+    method: "delete",
+  });
+  if (response.ok) {
+    const unfollowedUser = await response.json()
+    dispatch(unfollowUser(unfollowedUser))
+    return unfollowedUser
+  }
+}
+
 const sessionReducer = (state = initialState, action) => {
+  let newState
 
   switch (action.type) {
 
 
     case SET_USER:
-      return { user: action.payload }
+      newState = { user: action.payload }
+      newState.user.Following = normalizeArray(action.payload.Following)
+      return newState
 
 
     case REMOVE_USER:
       return { user: null }
+
+    case FOLLOW_USER:
+      newState = {...state}
+      newState.user.Following[action.payload.id] = action.payload
+      return newState
+
+    case UNFOLLOW_USER:
+      newState = {...state}
+      console.log('payload --------------------', action.payload)
+      return newState
 
     default:
       return state;

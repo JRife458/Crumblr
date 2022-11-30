@@ -16,7 +16,6 @@ def recent_posts():
 def create_posts():
     form = PostForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    print('post creation hit')
     if form.validate_on_submit():
       data = form.data
       new_post = Post(
@@ -54,3 +53,10 @@ def delete_post(id):
     db.session.delete(post)
     db.session.commit()
     return jsonify('Post Deleted')
+
+@post_routes.route('/following')
+@login_required
+def following():
+    followed = current_user.to_dict().Followed
+
+    return jsonify({'Posts': [followee.to_dict() for followee in followed]})

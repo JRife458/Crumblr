@@ -43,11 +43,25 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password, password)
 
     def to_dict(self):
+        print('look here ------------------', self.followed)
         return {
             'id': self.id,
             'username': self.username,
             'email': self.email,
             'Following': [followee.to_dict() for followee in self.followed]
+        }
+    def following_to_dict(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email': self.email,
+            'Posts': [post.to_dict() for post in self.posts]
+        }
+    def post_to_dict(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email': self.email
         }
 
 class Follow(db.Model):
@@ -65,7 +79,4 @@ class Follow(db.Model):
     follower = db.relationship('User', back_populates='followers', foreign_keys=[follower_id])
 
     def to_dict(self):
-        return {
-            'followee': self.followee.to_dict(),
-            'follower_id': self.follower_id
-        }
+        return self.followee.following_to_dict()

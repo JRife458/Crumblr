@@ -21,19 +21,9 @@ class Post(db.Model):
     def to_dict(self):
       return {
           'id': self.id,
-          'User': self.user.to_dict(),
+          'User': self.user.post_to_dict(),
           'type': self.type,
           'body': self.body,
           'url': self.url,
           'createdAt': self.created_at
-      }
-
-    def to_dict_no_user(self):
-      return {
-        'id': self.id,
-        'userId': self.user_id,
-        'type': self.type,
-        'body': self.body,
-        'url': self.url,
-        'createdAt': self.created_at
       }
