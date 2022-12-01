@@ -5,6 +5,8 @@ import { useHistory } from "react-router-dom";
 
 import { thunkEditPost } from "../../../store/postsReducer";
 
+import './EditPost.css';
+
 function PostEditForm({post}) {
   const [type, setType] = useState(post.type)
   const [body, setBody] = useState(post.body)
@@ -34,8 +36,7 @@ function PostEditForm({post}) {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className='post-edit-form'>
         <label>
           Type
           <label>
@@ -84,7 +85,6 @@ function PostEditForm({post}) {
           Edit Post
         </button>
       </form>
-    </div>
   )
 }
 

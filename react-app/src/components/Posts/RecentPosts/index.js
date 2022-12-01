@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { thunkReadAllPosts } from "../../../store/postsReducer";
 import PostCards from '../PostCards'
-import PostCreateForm from "../CreatePost";
+import '../Posts.css'
 
 function RecentPosts() {
   const sessionState = useSelector((state) => state.session)
@@ -22,14 +22,11 @@ function RecentPosts() {
   }, [dispatch]);
 
   return (
-    <div>
-      <div>
-      {sessionUser && <PostCreateForm />}
+    <div className="post-feed">
         {allPostsArr &&
           allPostsArr.map((post)=> (
             <PostCards key={post.id} post={post} />
           ))}
-      </div>
     </div>
   )
 }

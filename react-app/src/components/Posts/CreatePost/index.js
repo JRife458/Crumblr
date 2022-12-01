@@ -2,11 +2,8 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-
+import './CreatePost.css'
 import { thunkCreatePost } from "../../../store/postsReducer";
-
-// Demo Post
-
 
 
 function PostCreateForm() {
@@ -40,12 +37,11 @@ function PostCreateForm() {
     }
   }
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Type
+    <div className="post-create">
+      <h2>Create a Post</h2>
+      <form onSubmit={handleSubmit} className='post-create-form'>
           <label>
-          Text
+          <i class="fa-solid fa-quote-left"></i>
           <input
           name='type'
           type="radio"
@@ -55,7 +51,7 @@ function PostCreateForm() {
           />
           </label>
           <label>
-          Photo
+          <i className="fa-solid fa-camera"></i>
           <input
           name='type'
           type="radio"
@@ -64,9 +60,8 @@ function PostCreateForm() {
           onChange={(e) => setType(e.target.value)}
           />
           </label>
-        </label>
-        <label>
-          Body
+        <label className="post-create-input">
+          <p>Body</p>
           <textarea
           name="body"
           onChange={(e) => {setBody(e.target.value)}}
@@ -74,8 +69,8 @@ function PostCreateForm() {
           >
           </textarea>
         </label>
-        <label>
-          URL
+        <label className="post-create-input">
+          <p>URL</p>
           <input
           name='url'
           type="text"

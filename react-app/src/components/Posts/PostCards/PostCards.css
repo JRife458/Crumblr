@@ -1,0 +1,31 @@
+.post-card {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  width: 75%;
+  margin-top: 20px;
+}
+
+.post-card > img {
+  max-width: 100%;
+}
+
+.post-card-user {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: rgb(52, 52, 52);
+  border-bottom: 1px solid black;
+}
+
+.post-body-container {
+  background-color: rgb(52, 52, 52);
+}
+
+.post-body {
+  margin: 10px;
+}
+
+.follow-button:hover {
+  cursor: pointer;
+}

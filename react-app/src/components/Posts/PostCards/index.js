@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {thunkDeletePost} from '../../../store/postsReducer'
 import { thunkFollowUser, thunkUnfollowUser } from "../../../store/sessionReducer";
 import PostEditForm from "../EditPost";
+import './PostCards.css'
 
 function PostCards({post}) {
   const sessionState = useSelector((state) => state.session)
@@ -26,19 +27,28 @@ function PostCards({post}) {
     dispatch(thunkUnfollowUser(post.User.id))
   }
 
+  let followButton
+  if (follows.includes(`${post.User.id}`)) {
+    followButton = <h5 className="follow-button" onClick={unfollowUser}>Unfollow User</h5>
+    }
+  else followButton = <h5 className="follow-button" onClick={followUser}>Follow User</h5>
+
   return (
-    <div>
-      {sessionUser && follows.includes(`${post.User.id}`) &&
-      <button onClick={unfollowUser}>Unfollow User</button>}
-      {sessionUser && !follows.includes(`${post.User.id}`) &&
-      <button onClick={followUser}>Follow User</button>}
-      <p>{post.body}</p>
-      {image &&
-      <img src={image} alt="post"></img>}
+    <div className="post-card">
+      <div className='post-card-user'>
+        <h4>{post.User.username}</h4>
+        {sessionUser && sessionUser.id !== post.User.id && followButton}
+      </div>
       {sessionUser?.id === post?.User?.id &&
         <button onClick={deletePost}>Delete Post</button>}
       {sessionUser?.id === post?.User?.id &&
         <PostEditForm post={post} />}
+      {image &&
+      <img src={image} alt="post"></img>}
+      {post.body &&
+      <div className="post-body-container">
+        <p className="post-body">{post.body}</p>
+      </div>}
     </div>
   )
 }

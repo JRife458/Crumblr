@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import '../Posts.css'
 
 import PostCards from '../PostCards'
-import PostCreateForm from "../CreatePost";
 
 function FollowedPosts() {
   const sessionState = useSelector((state) => state.session)
@@ -15,15 +15,16 @@ function FollowedPosts() {
   allPostsArr.sort((a, b) => b.id - a.id)
 
 
-  return (
+  if (!allPostsArr.length) return (
     <div>
-      <div>
-      {sessionUser && <PostCreateForm />}
-        {allPostsArr &&
-          allPostsArr.map((post)=> (
-            <PostCards key={post.id} post={post} />
-          ))}
-      </div>
+      <h2>No Followed Users!</h2>
+    </div>
+  )
+  else return (
+    <div className="post-feed">
+      {allPostsArr.map((post)=> (
+        <PostCards key={post.id} post={post} />
+      ))}
     </div>
   )
 }
