@@ -5,8 +5,17 @@
   align-items: center;
   color: white;
   background-color: black;
+  font-family: 'Montserrat', sans-serif;
 }
 
 body {
   background-color: black;
+}
+
+button {
+  background-color: #9e5326;
+  padding: 10px;
+  font-family: 'Montserrat', sans-serif;
+  border-radius: 20px;
+  font-size: 20px;
 }

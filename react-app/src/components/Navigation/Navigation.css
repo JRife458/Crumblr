@@ -29,3 +29,7 @@
   display: flex;
   justify-content: center;
 }
+
+.logout-button:hover, .signup-button:hover, .login-button:hover {
+  cursor: pointer;
+}

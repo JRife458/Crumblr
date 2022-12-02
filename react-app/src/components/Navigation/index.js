@@ -14,16 +14,26 @@ function Navigation({ isLoaded }){
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
-      <div>
+      <div className='navigation-list'>
+        <NavLink exact to="/" className='nav-link'>
+        <h2>Recent Posts</h2>
+        </NavLink>
+        <NavLink to='/Following' exact={true} className='nav-link'>
+          <h2>Following</h2>
+        </NavLink>
+        <PostCreateForm />
         <LogoutButton />
-      </div>
+    </div>
     );
 
   } else {
     sessionLinks = (
-      <div className='login-signup'>
-        <SignUpFormModal />
-        <LoginFormModal />
+      <div>
+        <h2>Crumblr is a place to share your photos and experiences with cookies! Browse our recent posts, or sign up to post and follow other users!</h2>
+        <div className='navigation-list'>
+          <SignUpFormModal />
+          <LoginFormModal />
+        </div>
       </div>
     );
   }
@@ -33,19 +43,7 @@ function Navigation({ isLoaded }){
       <div className='nav-logo-container'>
         <img className='nav-logo' alt='logo' src={logo}></img>
       </div>
-    <div className='navigation-list'>
-        <NavLink exact to="/" className='nav-link'>
-        <h2>Recent Posts</h2>
-        </NavLink>
-        {sessionUser &&
-        <NavLink to='/Following' exact={true} className='nav-link'>
-          <h2>Following</h2>
-        </NavLink>}
         {isLoaded && sessionLinks}
-    </div>
-    <div>
-      {sessionUser && <PostCreateForm />}
-    </div>
     </div>
   );
 }

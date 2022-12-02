@@ -26,3 +26,7 @@
 .post-create-form-label {
   margin-right: 10px;
 }
+
+.create-post-button:hover {
+  cursor: pointer;
+}
