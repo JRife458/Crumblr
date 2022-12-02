@@ -13,6 +13,10 @@
   max-width: fit-content;
 }
 
+.nav-link:hover {
+  color: #9e5326;
+}
+
 .header {
   display: flex;
   flex-direction: column;
@@ -32,4 +36,5 @@
 
 .logout-button:hover, .signup-button:hover, .login-button:hover {
   cursor: pointer;
+  color: #9e5326;
 }

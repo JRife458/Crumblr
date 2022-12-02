@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import LogoutButton from "../auth/LogoutButton";
@@ -11,14 +11,15 @@ import logo from '../../assets/logo.png'
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
 
+
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
       <div className='navigation-list'>
-        <NavLink exact to="/" className='nav-link'>
-        <h2>Recent Posts</h2>
+        <NavLink activeStyle={{color: "#9e5326",textDecoration:"none"}} exact to="/" className='nav-link'>
+          <h2>Recent Posts</h2>
         </NavLink>
-        <NavLink to='/Following' exact={true} className='nav-link'>
+        <NavLink activeStyle={{color: "#9e5326",textDecoration:"none"}} to='/Following' exact={true} className='nav-link'>
           <h2>Following</h2>
         </NavLink>
         <PostCreateForm />
