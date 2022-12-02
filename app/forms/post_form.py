@@ -9,7 +9,9 @@ def type_check(form, field):
         raise ValidationError('Type must be text, photo, or video.')
 
 
+
+
 class PostForm(FlaskForm):
     type = StringField('type', validators=[DataRequired(), type_check])
-    body = StringField('body')
+    body = StringField('body', validators=[DataRequired()])
     url = StringField('url')

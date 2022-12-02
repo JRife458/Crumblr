@@ -19,3 +19,7 @@ button {
   border-radius: 20px;
   font-size: 20px;
 }
+
+button:hover {
+  cursor: pointer;
+}

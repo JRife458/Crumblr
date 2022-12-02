@@ -11,7 +11,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod('users.id')), nullable=False)
     type = db.Column(db.String, nullable=False)
-    body = db.Column(db.String(500))
+    body = db.Column(db.String(500), nullable=False)
     url = db.Column(db.String(500))
     created_at = db.Column(db.String(50), nullable=False, default=date_str)
 

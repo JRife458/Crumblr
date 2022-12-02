@@ -1,7 +1,6 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
 import './CreatePost.css'
 import { thunkCreatePost } from "../../../store/postsReducer";
 
@@ -9,34 +8,35 @@ import { thunkCreatePost } from "../../../store/postsReducer";
 function PostCreateForm({setShowModal}) {
   const [body, setBody] = useState('')
   const [url, setUrl] = useState('')
-  const [validationErrors, setValidationErrors] = useState([]);
+  const [validationErrors, setValidationErrors] = useState([])
+
 
   let dispatch = useDispatch()
 
-  const history = useHistory()
+  useEffect(() => {
+    let errors = [];
+    if (body.length <= 20) errors.push("Body must be at least 20 characters");
+    setValidationErrors(errors);
+  }, [body]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let errors = []
     let type = 'text'
-    await dispatch(thunkCreatePost(
+    if (!validationErrors.length) await dispatch(thunkCreatePost(
       type,
       body,
       url
-      )
-    ).catch(async (res) => {
-      const data = await res.json()
-      if (data && data.errors) errors.push(data.errors)
-      setValidationErrors(errors)
-    })
-    if (validationErrors.length <= 0) {
-      setBody('')
-      setUrl('')
-      setShowModal(false)
-    }
+      )).then(setShowModal(false))
   }
+
   return (
     <div className="post-create">
       <h2>Create a Post</h2>
+      <div>
+        {validationErrors.map((error, ind) => (
+          <p key={ind}>{error}</p>
+        ))}
+      </div>
       <form onSubmit={handleSubmit} className='post-create-form'>
         <label className="post-create-input">
           <p className="post-create-form-label">Body</p>
@@ -45,6 +45,9 @@ function PostCreateForm({setShowModal}) {
           onChange={(e) => {setBody(e.target.value)}}
           className='post-create-text-area'
           value={body}
+          maxLength="500"
+          minLength="20"
+          required
           >
           </textarea>
         </label>
@@ -59,7 +62,6 @@ function PostCreateForm({setShowModal}) {
         </label>
         <button
         type="submit"
-        disabled={!!validationErrors.length}
         >
           Create Post
         </button>
