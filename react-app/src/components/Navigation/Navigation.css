@@ -10,6 +10,7 @@
 .nav-link {
   color: white;
   text-decoration: none;
+  max-width: fit-content;
 }
 
 .header {
@@ -18,4 +19,13 @@
   justify-items: center;
   align-content: space-around;
   width: 75%;
+}
+
+.nav-logo {
+  max-width: 25%;
+}
+
+.nav-logo-container {
+  display: flex;
+  justify-content: center;
 }

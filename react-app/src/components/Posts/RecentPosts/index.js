@@ -7,10 +7,8 @@ import PostCards from '../PostCards'
 import '../Posts.css'
 
 function RecentPosts() {
-  const sessionState = useSelector((state) => state.session)
   const postsState = useSelector((state) => state.posts);
 
-  const sessionUser = sessionState.user
   const allPosts = postsState.posts
   const allPostsArr = Object.values(allPosts).sort((a, b) => b.id - a.id)
 

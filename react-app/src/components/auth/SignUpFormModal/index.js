@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import { Modal } from '../../../context/Modal';
-import PostEditForm from './EditPostForm';
+import SignUpForm from './SignUpForm';
 
-function EditPostModal({post}) {
+function SignUpFormModal() {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <h5 className='edit-post-button' onClick={() => setShowModal(true)}>Edit Post</h5>
+      <button onClick={() => setShowModal(true)}>Sign Up</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <PostEditForm post={post} setShowModal={setShowModal}/>
+          <SignUpForm />
         </Modal>
       )}
     </>
   );
 }
 
-export default EditPostModal;
+export default SignUpFormModal;

@@ -16,16 +16,28 @@
   justify-content: space-between;
   background-color: rgb(52, 52, 52);
   border-bottom: 1px solid black;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.post-card-username {
+  margin-left: 10px;
 }
 
 .post-body-container {
   background-color: rgb(52, 52, 52);
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 
 .post-body {
   margin: 10px;
 }
 
-.follow-button:hover {
+.follow-button, .edit-post-button {
+  margin-right: 10px;
+}
+
+.follow-button:hover, .edit-post-button:hover {
   cursor: pointer;
 }
