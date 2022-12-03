@@ -15,7 +15,8 @@ function PostCreateForm({setShowModal}) {
 
   useEffect(() => {
     let errors = [];
-    if (body.length <= 20) errors.push("Body must be at least 20 characters");
+    if (body.length < 20) errors.push("Body must be at least 20 characters");
+    if (body.length > 500) errors.push("Body must cannot be more than 500 characters")
     setValidationErrors(errors);
   }, [body]);
 

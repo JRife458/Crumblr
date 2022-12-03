@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { thunkFollowUser, thunkUnfollowUser } from "../../../store/sessionReducer";
 import EditPostModal from "../EditPost";
 import './PostCards.css'
+import brokenImageReplacement from '../../../assets/brokenImageReplacement.jpg'
 
 function PostCards({post}) {
   const sessionState = useSelector((state) => state.session)
@@ -37,7 +38,12 @@ function PostCards({post}) {
         }
       </div>
       {image &&
-      <img src={image} alt="post"></img>}
+      <img
+      src={image}
+      alt="post"
+      onError={e => {
+        e.currentTarget.src = brokenImageReplacement; }}
+      />}
       {post.body &&
       <div className="post-body-container">
         <p className="post-body">{post.body}</p>

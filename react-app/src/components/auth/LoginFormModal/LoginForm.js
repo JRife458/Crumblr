@@ -9,15 +9,12 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors([]);
-    return dispatch(login(email, password)).catch(
-      async (res) => {
-        const data = await res.json();
-        if (data && data.errors) setErrors(data.errors);
-      }
-    );
+    const data = await dispatch(login(email, password))
+    if (data) {
+      setErrors(data)
+    }
   };
 
   const demoUser = async (e) => {
@@ -28,11 +25,11 @@ function LoginForm() {
   return (
     <form className="login-form" onSubmit={handleSubmit}>
       <h2>Log In</h2>
-      <ul>
-        {errors.map((error, idx) => (
-          <li key={idx}>{error}</li>
+      <div>
+        {errors.map((error, ind) => (
+          <div key={ind}>{error}</div>
         ))}
-      </ul>
+      </div>
       <div className="login-form-inputs">
         <label className="login-input">
           Email

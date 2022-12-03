@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
-import { Redirect } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
 import { signUp } from '../../../store/sessionReducer';
 
 const SignUpForm = () => {
@@ -9,17 +8,23 @@ const SignUpForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-  const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
 
   const onSignUp = async (e) => {
     e.preventDefault();
-    if (password === repeatPassword) {
+    let validationErrors = [];
+    if (password !== repeatPassword)
+      validationErrors.push("Passwords do not match");
+    if (!email.includes("@"))
+      validationErrors.push("Not a valid email address");
+    setErrors(validationErrors)
+    if (validationErrors.length <= 0) {
       const data = await dispatch(signUp(username, email, password));
       if (data) {
         setErrors(data)
       }
     }
+
   };
 
   const updateUsername = (e) => {
@@ -38,10 +43,6 @@ const SignUpForm = () => {
     setRepeatPassword(e.target.value);
   };
 
-  if (user) {
-    return <Redirect to='/' />;
-  }
-
   return (
     <form onSubmit={onSignUp} className="signup-form">
       <h2>Sign Up</h2>
@@ -58,6 +59,8 @@ const SignUpForm = () => {
           name='username'
           onChange={updateUsername}
           value={username}
+          minLength='2'
+          maxLength='20'
         ></input>
       </div>
       <div className="signup-input">
@@ -76,6 +79,7 @@ const SignUpForm = () => {
           name='password'
           onChange={updatePassword}
           value={password}
+          minLength='8'
         ></input>
       </div>
       <div className="signup-input">
@@ -86,6 +90,7 @@ const SignUpForm = () => {
           onChange={updateRepeatPassword}
           value={repeatPassword}
           required={true}
+          minLength='8'
         ></input>
       </div>
       </div>

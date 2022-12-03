@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { thunkEditPost, thunkDeletePost } from "../../../store/postsReducer";
@@ -14,8 +14,17 @@ function PostEditForm({post, setShowModal}) {
   let dispatch = useDispatch()
 
   function deletePost() {
+    setBody('')
+    setUrl('')
     dispatch(thunkDeletePost(post.id))
   }
+
+  useEffect(() => {
+    let errors = [];
+    if (body.length < 20) errors.push("Body must be at least 20 characters");
+    if (body.length > 500) errors.push("Body must cannot be more than 500 characters")
+    setValidationErrors(errors);
+  }, [body]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,6 +48,11 @@ function PostEditForm({post, setShowModal}) {
   return (
     <div className="post-create">
     <h2>Edit Post</h2>
+    <div>
+        {validationErrors.map((error, ind) => (
+          <p key={ind}>{error}</p>
+        ))}
+      </div>
     <form onSubmit={handleSubmit} className='post-create-form'>
       <label className="post-create-input">
         <p className="post-create-form-label">Body</p>
@@ -47,6 +61,9 @@ function PostEditForm({post, setShowModal}) {
         onChange={(e) => {setBody(e.target.value)}}
         className='post-create-text-area'
         value={body}
+        maxLength="500"
+        minLength="20"
+        required
         >
         </textarea>
       </label>

@@ -25,6 +25,9 @@
 }
 
 .post-body-container {
+  display: flex;
+  flex-wrap: wrap;
+  word-wrap: break-word;
   background-color: rgb(52, 52, 52);
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -32,6 +35,9 @@
 
 .post-body {
   margin: 10px;
+  max-width: 100%;
+  flex-wrap: wrap;
+  word-wrap: break-word;
 }
 
 .follow-button, .edit-post-button {

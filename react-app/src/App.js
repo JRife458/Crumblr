@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Navigation from './components/Navigation';
-import ProtectedRoute from './components/auth/ProtectedRoute';
-import UsersList from './components/UsersList';
-import User from './components/User';
 import RecentPosts from './components/Posts/RecentPosts'
 import FollowedPosts from './components/Posts/Following';
+import Footer from './components/Footer';
 import { authenticate } from './store/sessionReducer';
 
 function App() {
@@ -31,16 +29,14 @@ function App() {
         <Route path='/following' exact={true}>
           <FollowedPosts />
         </Route>
-        <ProtectedRoute path='/users' exact={true} >
-          <UsersList/>
-        </ProtectedRoute>
-        <ProtectedRoute path='/users/:userId' exact={true} >
-          <User />
-        </ProtectedRoute>
         <Route path='/' exact={true} >
           <RecentPosts />
         </Route>
+        <Route path='*'>
+          <h1>Error 404 Page Not Found</h1>
+        </Route>
       </Switch>
+      <Footer />
     </BrowserRouter>
   );
 }
