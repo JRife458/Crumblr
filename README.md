@@ -1,148 +1,137 @@
-# Flask React Project
+# Crumblr
 
-This is the starter for the Flask React project.
+Crumblr is a clone of the website Tumblr, but with a cookie themed twist! You can create an account, add
 
-## Getting started
-1. Clone this repository (only this branch)
+Live site: [Crumblr](https://crumblr.onrender.com/)
 
-2. Install dependencies
+Wiki: [Link](https://github.com/Mancussion/Crumblr/wiki)
 
-      ```bash
-      pipenv install -r requirements.txt
-      ```
+## Tech Stack
 
-3. Create a **.env** file based on the example with proper settings for your
-   development environment
+### Frameworks, Platforms, and Libraries:
 
-4. Make sure the SQLite3 database connection URL is in the **.env** file
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
 
-5. This starter organizes all tables inside the `flask_schema` schema, defined
-   by the `SCHEMA` environment variable.  Replace the value for
-   `SCHEMA` with a unique name, **making sure you use the snake_case
-   convention**.
+### Hosting:
 
-6. Get into your pipenv, migrate your database, seed your database, and run your Flask app
+![Render](https://img.shields.io/badge/Render-%46E3B7.svg?style=for-the-badge&logo=render&logoColor=white)
 
-   ```bash
-   pipenv shell
-   ```
+## Features
 
-   ```bash
-   flask db upgrade
-   ```
+### Home Page:
 
-   ```bash
-   flask seed all
-   ```
+Here you can see a list of recent posts. You can also follow users to add them to your following feed
 
-   ```bash
-   flask run
-   ```
+![home]
 
-7. To run the React App in development, checkout the [README](./react-app/README.md) inside the `react-app` directory.
+[home]: ./screenshots/Homepage.png
 
+### Sign Up and Log In
 
-## Deployment through Render.com
+You can sign up or log in at any time by navigating to the top of the screen. There is also an option to log in as the Demo User
 
-First, refer to your Render.com deployment articles for more detailed
-instructions about getting started with [Render.com], creating a production
-database, and deployment debugging tips.
+![sign up]
+![log in]
 
-From the [Dashboard], click on the "New +" button in the navigation bar, and
-click on "Web Service" to create the application that will be deployed.
+[sign up]: ./screenshots/SignUp.png
+[log in]: ./screenshots/LogIn.png
 
-Look for the name of the application you want to deploy, and click the "Connect"
-button to the right of the name.
+### Create a Post
 
-Now, fill out the form to configure the build and start commands, as well as add
-the environment variables to properly deploy the application.
+![create a post]
 
-### Part A: Configure the Start and Build Commands
+[create a post]: ./screenshots/CreatePost.png
 
-Start by giving your application a name.
+If you are signed in, you can create a post by clicking the selection at the top of the page
 
-Leave the root directory field blank. By default, Render will run commands from
-the root directory.
+### Edit a Post
 
-Make sure the Environment field is set set to "Python 3", the Region is set to
-the location closest to you, and the Branch is set to "main".
+Here you can edit posts you've made, or delete them entirely.
 
-Next, add your Build command. This is a script that should include everything
-that needs to happen _before_ starting the server.
+![edit a post]
 
-For your Flask project, enter the following command into the Build field, all in
-one line:
+[edit a post]: ./screenshots/EditPost.png
 
-```shell
-# build command - enter all in one line
-npm install --prefix react-app &&
-npm run build --prefix react-app &&
-pip install -r requirements.txt &&
-pip install psycopg2 &&
-flask db upgrade &&
-flask seed all
-```
+### Following
 
-This script will install dependencies for the frontend, and run the build
-command in the __package.json__ file for the frontend, which builds the React
-application. Then, it will install the dependencies needed for the Python
-backend, and run the migration and seed files.
+Here you can see a view only the most recent posts from the users that you have followed
 
-Now, add your start command in the Start field:
+![following]
 
-```shell
-# start script
-gunicorn app:app
-```
+[following]: ./screenshots/Following.png
 
-_If you are using websockets, use the following start command instead for increased performance:_
+## Upcoming Features
 
-`gunicorn --worker-class eventlet -w 1 app:app`
+- Upload Images
 
-### Part B: Add the Environment Variables
+- Video Posts
 
-Click on the "Advanced" button at the bottom of the form to configure the
-environment variables your application needs to access to run properly. In the
-development environment, you have been securing these variables in the __.env__
-file, which has been removed from source control. In this step, you will need to
-input the keys and values for the environment variables you need for production
-into the Render GUI.
+- Liking Posts
 
-Click on "Add Environment Variable" to start adding all of the variables you
-need for the production environment.
+- Add tags to post
 
-Add the following keys and values in the Render GUI form:
+## Set Up
 
-- SECRET_KEY (click "Generate" to generate a secure secret for production)
-- FLASK_ENV production
-- FLASK_APP app
-- SCHEMA (your unique schema name, in snake_case)
-- REACT_APP_BASE_URL (use render.com url, located at top of page, similar to
-  https://this-application-name.onrender.com)
+- Clone the repo
 
-In a new tab, navigate to your dashboard and click on your Postgres database
-instance.
+### Back End Server
 
-Add the following keys and values:
+- Open up a new terminal
 
-- DATABASE_URL (copy value from Internal Database URL field)
+- Open up the project folder
 
-_Note: Add any other keys and values that may be present in your local __.env__
-file. As you work to further develop your project, you may need to add more
-environment variables to your local __.env__ file. Make sure you add these
-environment variables to the Render GUI as well for the next deployment._
+- Install dependencies
 
-Next, choose "Yes" for the Auto-Deploy field. This will re-deploy your
-application every time you push to main.
+  ```bash
+  pipenv install -r requirements.txt
+  ```
 
-Now, you are finally ready to deploy! Click "Create Web Service" to deploy your
-project. The deployment process will likely take about 10-15 minutes if
-everything works as expected. You can monitor the logs to see your build and
-start commands being executed, and see any errors in the build process.
+- Create a **.env** file based on the example
 
-When deployment is complete, open your deployed site and check to see if you
-successfully deployed your Flask application to Render! You can find the URL for
-your site just below the name of the Web Service at the top of the page.
+- Run the following commands to open your pipenv, migrate the database, seed the database, and run the Flask app
 
-[Render.com]: https://render.com/
-[Dashboard]: https://dashboard.render.com/
+  ```bash
+  pipenv shell
+  ```
+
+  ```bash
+  flask db upgrade
+  ```
+
+  ```bash
+  flask seed all
+  ```
+
+  ```bash
+  flask run
+  ```
+
+### Front End
+
+- Open up another new terminal
+
+- Direct to the <code>react-app</code> folder
+
+- Install dependencies
+
+  ```bash
+  npm install
+  ```
+
+- Start the React App
+
+  ```bash
+  npm start
+  ```
+
+## Contact Me
+
+- Email: <code>jrife458@gmail.com</code>
+
+- Linkedin: [Link](https://www.linkedin.com/in/justin-rife-730875181/)
