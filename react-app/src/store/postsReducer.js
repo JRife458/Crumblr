@@ -29,14 +29,14 @@ const actionDeletePost = (postId) => ({
 
 // Thunks
 
-export const thunkCreatePost = (type, body, url) => async (dispatch) => {
+export const thunkCreatePost = (type, body, image) => async (dispatch) => {
   const response = await fetch('/api/posts/', {
     method: 'post',
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       type,
       body,
-      url
+      image
     }),
   });
   if (response.ok) {

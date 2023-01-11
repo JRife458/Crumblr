@@ -7,8 +7,11 @@ import { thunkCreatePost } from "../../../store/postsReducer";
 
 function PostCreateForm({setShowModal}) {
   const [body, setBody] = useState('')
-  const [url, setUrl] = useState('')
+  const [image, setImage] = useState('')
+  const [type, setType] = useState('text')
+  const [imageLoading, setImageLoading] = useState(false)
   const [validationErrors, setValidationErrors] = useState([])
+  const [postError, setPostError] = useState(false)
 
 
   let dispatch = useDispatch()
@@ -17,17 +20,31 @@ function PostCreateForm({setShowModal}) {
     let errors = [];
     if (body.length < 20) errors.push("Body must be at least 20 characters");
     if (body.length > 500) errors.push("Body must cannot be more than 500 characters")
+    if (type === "photo" && !image) errors.push("No image file chosen")
     setValidationErrors(errors);
-  }, [body]);
+  }, [body, type, image, postError]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let type = 'text'
-    if (!validationErrors.length) await dispatch(thunkCreatePost(
-      type,
-      body,
-      url
-      )).then(setShowModal(false))
+    setImageLoading(true);
+    setPostError(false)
+    if (!validationErrors.length) {
+      console.log(image)
+      const res = await dispatch(thunkCreatePost(type, body, image))
+      if (res) {
+        setImageLoading(false)
+        setShowModal(false)
+      }
+      else {
+        setImageLoading(false)
+        setPostError(true)
+      }
+    }
+  }
+
+  const updateImage = (e) => {
+    const file = e.target.files[0]
+    setImage(file)
   }
 
   return (
@@ -37,8 +54,30 @@ function PostCreateForm({setShowModal}) {
         {validationErrors.map((error, ind) => (
           <p key={ind}>{error}</p>
         ))}
+        {postError && <p>"Error making post, please try again"</p>}
       </div>
       <form onSubmit={handleSubmit} className='post-create-form'>
+        <label className="post-create-input">
+          <p className="post-create-form-label">Type</p>
+          <label> Text
+            <input
+            name='type'
+            type="radio"
+            checked={type === 'text'}
+            value='text'
+            onChange={(e) => setType(e.target.value)}
+            />
+          </label>
+          <label> Image
+            <input
+            name='type'
+            type="radio"
+            checked={type === 'photo'}
+            value='photo'
+            onChange={(e) => setType(e.target.value)}
+            />
+          </label>
+        </label>
         <label className="post-create-input">
           <p className="post-create-form-label">Body</p>
           <textarea
@@ -53,19 +92,15 @@ function PostCreateForm({setShowModal}) {
           </textarea>
         </label>
         <label className="post-create-input">
-          <p className="post-create-form-label">Image URL</p>
+          <p className="post-create-form-label">Image</p>
           <input
-          name='url'
-          type="text"
-          onChange={(e) => setUrl(e.target.value)}
-          value={url}
+          name='image'
+          type="file"
+          accept="image/*"
+          onChange={updateImage}
           />
         </label>
-        <button
-        type="submit"
-        >
-          Create Post
-        </button>
+        <button disabled={imageLoading} type="submit">{imageLoading ? "...Loading..." : "Create Post"}</button>
       </form>
     </div>
   )

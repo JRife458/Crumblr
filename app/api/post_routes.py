@@ -3,8 +3,23 @@ from flask_login import login_required, current_user
 from app.models import Post, db
 from app.forms import PostForm
 from app.api.auth_routes import validation_errors_to_error_messages
+from app.s3.upload import (
+    upload_file_to_s3, allowed_file, get_unique_filename)
 
 post_routes = Blueprint('posts', __name__)
+
+def upload_image(image):
+    image.filename = get_unique_filename(image.filename)
+
+    upload = upload_file_to_s3(image)
+
+    if "url" not in upload:
+      # if the dictionary doesn't have a url key
+      # it means that there was an error when we tried to upload
+      # so we send back that error message
+      return upload
+    url = upload["url"]
+    return url
 
 @post_routes.route('/')
 def recent_posts():
@@ -18,11 +33,20 @@ def create_posts():
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
       data = form.data
+      url = None
+
+      if (data['type'] == 'photo'):
+        image = data['image']
+        print("IMAGE---------------------------------", image)
+        image.filename = get_unique_filename(image['name'])
+        s3_url = upload_image(image)
+        url = s3_url
+
       new_post = Post(
         user_id = current_user.id,
         type = data['type'],
         body = data['body'],
-        url = data['url']
+        url = url
       )
       db.session.add(new_post)
       db.session.commit()
