@@ -29,17 +29,20 @@ function PostCreateForm({setShowModal}) {
     setImageLoading(true);
     setPostError(false)
     if (!validationErrors.length) {
-      console.log(image)
-      const res = await dispatch(thunkCreatePost(type, body, image))
-      if (res) {
+      const imageData = new FormData();
+      imageData.append('image', image)
+      await dispatch(thunkCreatePost(type, body, imageData)).catch(async (res) => {
+        const data = await res.json
+        if (data && data.errors) {
+          setImageLoading(false)
+          setPostError(true)
+        }
+      })
+      if (!validationErrors.length && !postError) {
         setImageLoading(false)
         setShowModal(false)
       }
-      else {
-        setImageLoading(false)
-        setPostError(true)
       }
-    }
   }
 
   const updateImage = (e) => {
@@ -56,7 +59,7 @@ function PostCreateForm({setShowModal}) {
         ))}
         {postError && <p>"Error making post, please try again"</p>}
       </div>
-      <form onSubmit={handleSubmit} className='post-create-form'>
+      <form id="post-create" onSubmit={handleSubmit} className='post-create-form' encType="multipart/form-data" method="POST">
         <label className="post-create-input">
           <p className="post-create-form-label">Type</p>
           <label> Text

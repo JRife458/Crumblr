@@ -30,20 +30,29 @@ const actionDeletePost = (postId) => ({
 // Thunks
 
 export const thunkCreatePost = (type, body, image) => async (dispatch) => {
-  const response = await fetch('/api/posts/', {
-    method: 'post',
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      type,
-      body,
-      image
-    }),
-  });
-  if (response.ok) {
-    const newPost = await response.json()
-    dispatch(actionCreatePost(newPost))
-    return newPost
+  const s3image = await fetch('/api/posts/upload', {
+    method: 'POST',
+    body: image
+  })
+  if (s3image.ok) {
+    await s3image.json().then(async (url) => {
+      const response = await fetch('/api/posts/', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type,
+          body,
+          url: url.url
+        }),
+      });
+      if (response.ok) {
+        const newPost = await response.json()
+        dispatch(actionCreatePost(newPost))
+        return newPost
+      }
+    })
   }
+
 }
 
 export const thunkReadAllPosts = () => async (dispatch) => {

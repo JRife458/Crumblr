@@ -33,26 +33,45 @@ def create_posts():
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
       data = form.data
-      url = None
-
-      if (data['type'] == 'photo'):
-        image = data['image']
-        print("IMAGE---------------------------------", image)
-        image.filename = get_unique_filename(image['name'])
-        s3_url = upload_image(image)
-        url = s3_url
-
       new_post = Post(
         user_id = current_user.id,
         type = data['type'],
         body = data['body'],
-        url = url
+        url = data['url']
       )
       db.session.add(new_post)
       db.session.commit()
       return jsonify(new_post.to_dict())
     else:
       return jsonify('Error creating post.')
+
+@post_routes.route("/upload", methods=["POST"])
+@login_required
+def upload_image():
+    if "image" not in request.files:
+        return {"errors": "image required"}, 400
+
+    image = request.files["image"]
+
+    if not allowed_file(image.filename):
+        return {"errors": "file type not permitted"}, 400
+
+    image.filename = get_unique_filename(image.filename)
+    print('filename----------------', image.filename)
+
+    upload = upload_file_to_s3(image)
+
+    print('UPLOAD--------------------', upload)
+
+    if "url" not in upload:
+        # if the dictionary doesn't have a url key
+        # it means that there was an error when we tried to upload
+        # so we send back that error message
+        return upload, 400
+
+    url = upload["url"]
+    # flask_login allows us to get the current user from the request
+    return {"url": url}
 
 @post_routes.route('/<int:id>', methods=["PUT"])
 @login_required
