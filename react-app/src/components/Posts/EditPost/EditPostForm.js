@@ -8,14 +8,12 @@ import './EditPost.css';
 
 function PostEditForm({post, setShowModal}) {
   const [body, setBody] = useState(post.body)
-  const [url, setUrl] = useState(post.url)
   const [validationErrors, setValidationErrors] = useState([]);
 
   let dispatch = useDispatch()
 
   function deletePost() {
     setBody('')
-    setUrl('')
     dispatch(thunkDeletePost(post.id))
   }
 
@@ -33,7 +31,6 @@ function PostEditForm({post, setShowModal}) {
       post.id,
       post.type,
       body,
-      url
       )
     ).catch(async (res) => {
       const data = await res.json()
@@ -66,15 +63,6 @@ function PostEditForm({post, setShowModal}) {
         required
         >
         </textarea>
-      </label>
-      <label className="post-create-input">
-        <p className="post-create-form-label">Image URL</p>
-        <input
-        name='url'
-        type="text"
-        onChange={(e) => setUrl(e.target.value)}
-        value={url}
-        />
       </label>
       <button
       type="submit"
