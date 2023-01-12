@@ -6,7 +6,7 @@ function Footer() {
     <div className="footer">
       <div>
         <a className="footer-link"
-        href="https://github.com/Mancussion"
+        href="https://github.com/JRife458"
         target="_blank"
         rel="noopener noreferrer"
         ><i className="fa-brands fa-square-github fa-2x"></i></a>
