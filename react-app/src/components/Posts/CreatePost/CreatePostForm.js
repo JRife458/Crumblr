@@ -94,6 +94,7 @@ function PostCreateForm({setShowModal}) {
           >
           </textarea>
         </label>
+        {type === 'photo' &&
         <label className="post-create-input">
           <p className="post-create-form-label">Image</p>
           <input
@@ -102,7 +103,7 @@ function PostCreateForm({setShowModal}) {
           accept="image/*"
           onChange={updateImage}
           />
-        </label>
+        </label>}
         <button disabled={imageLoading} type="submit">{imageLoading ? "...Loading..." : "Create Post"}</button>
       </form>
     </div>

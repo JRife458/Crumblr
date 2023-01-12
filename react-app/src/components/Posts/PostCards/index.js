@@ -12,6 +12,10 @@ function PostCards({post}) {
   if (sessionUser?.Following) follows = Object.keys(sessionUser.Following)
 
   let image = post?.url
+  // if (image) {
+  //   let split = image.split('/')
+  //   console.log(split[split.length - 1])
+  // }
   const dispatch = useDispatch()
 
   function followUser() {

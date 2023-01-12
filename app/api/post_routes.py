@@ -4,7 +4,7 @@ from app.models import Post, db
 from app.forms import PostForm
 from app.api.auth_routes import validation_errors_to_error_messages
 from app.s3.upload import (
-    upload_file_to_s3, allowed_file, get_unique_filename)
+    upload_file_to_s3, allowed_file, get_unique_filename, delete_file_in_s3)
 
 post_routes = Blueprint('posts', __name__)
 
@@ -57,11 +57,8 @@ def upload_image():
         return {"errors": "file type not permitted"}, 400
 
     image.filename = get_unique_filename(image.filename)
-    print('filename----------------', image.filename)
 
     upload = upload_file_to_s3(image)
-
-    print('UPLOAD--------------------', upload)
 
     if "url" not in upload:
         # if the dictionary doesn't have a url key
@@ -93,6 +90,9 @@ def edit_post(id):
 @login_required
 def delete_post(id):
     post = Post.query.get(id)
+    split = post.url.split('/')
+    filename = split[len(split) - 1]
+    delete_file_in_s3(filename)
     db.session.delete(post)
     db.session.commit()
     return jsonify('Post Deleted')
