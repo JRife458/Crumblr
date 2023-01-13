@@ -1,5 +1,4 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from .post import users_to_post_likes
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
@@ -17,8 +16,8 @@ class User(db.Model, UserMixin):
 
 
     posts = db.relationship('Post', back_populates='user', cascade="all, delete-orphan")
-    # likes = db.relationship('Like', back_populates='user', primaryjoin=lambda: User.id == Like.user_id, cascade="all, delete-orphan")
-    liked = db.relationship('Post', secondary=users_to_post_likes, back_populates='likes')
+    liked = db.relationship("Like", back_populates="user", cascade="all, delete")
+
     followers = db.relationship(
         'Follow',
          back_populates='follower',
