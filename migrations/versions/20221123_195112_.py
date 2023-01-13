@@ -46,6 +46,18 @@ def upgrade():
     )
     if environment == "production":
         op.execute(f"ALTER TABLE posts SET SCHEMA {SCHEMA};")
+
+    op.create_table('users_to_post_likes',
+    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('post_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['post_id'], ['posts.id'], ),
+    sa.PrimaryKeyConstraint('user_id', 'post_id')
+    )
+
+    if environment == "production":
+        op.execute(f"ALTER TABLE users_to_post_likes SET SCHEMA {SCHEMA};")
+
     # ### end Alembic commands ###
 
 
