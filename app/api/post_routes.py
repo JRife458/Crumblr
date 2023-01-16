@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import Post, db
+from app.models import Post, db, Like
 from app.forms import PostForm
 from app.api.auth_routes import validation_errors_to_error_messages
 from app.s3.upload import (
@@ -96,6 +96,23 @@ def delete_post(id):
     db.session.delete(post)
     db.session.commit()
     return jsonify('Post Deleted')
+
+@post_routes.route('/<int:id>/likes', methods=["POST"])
+@login_required
+def like_post(id):
+    post = Post.query.get(id)
+    if not post:
+        return {'error': 'Post not found'}
+    newLike = Like(
+        user_id=current_user.id,
+        post_id=id
+    )
+    db.session.add(newLike)
+    db.session.commit()
+    return jsonify({
+        "userId": current_user.id,
+        "postId": id
+    })
 
 @post_routes.route('/following')
 @login_required

@@ -28,6 +28,7 @@
   display: flex;
   flex-wrap: wrap;
   word-wrap: break-word;
+  flex-direction: column;
   background-color: rgb(52, 52, 52);
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -44,6 +45,16 @@
   margin-right: 10px;
 }
 
-.follow-button:hover, .edit-post-button:hover {
+.follow-button:hover, .edit-post-button:hover, .post-like-button:hover {
   cursor: pointer;
+}
+
+.post-likes-container {
+  display: inline-flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.post-likes, .post-like-button {
+  margin: 10px
 }

@@ -4,6 +4,7 @@ const READ_ALL_POSTS = 'posts/READ_ALL_POSTS'
 const DELETE_POST = 'posts/DELETE_POST'
 const CREATE_POST = 'posts/CREATE_POST'
 const EDIT_POST = 'posts/EDIT_POST'
+const LIKE_POST = 'posts/LIKE_POST'
 
 // Action Creators
 
@@ -25,6 +26,11 @@ const actionEditPost = (post) => ({
 const actionDeletePost = (postId) => ({
   type: DELETE_POST,
   payload: postId
+})
+
+const actionLikePost = (like) => ({
+  type: LIKE_POST,
+  payload: like
 })
 
 // Thunks
@@ -107,6 +113,17 @@ export const thunkDeletePost = (postId) => async (dispatch) => {
   }
 };
 
+export const thunkLikePost = (postId) => async (dispatch) => {
+  const response = await fetch(`/api/posts/${postId}/likes`, {
+    method: 'POST',
+  })
+  if (response.ok) {
+    const newLike = await response.json()
+    dispatch(actionLikePost(newLike))
+    return newLike
+  }
+}
+
 const initialState = {
   posts: {}
 }
@@ -129,6 +146,10 @@ const postReducer = (state = initialState, action) => {
     case DELETE_POST:
       newState.posts = {...state.posts}
       delete newState.posts[action.payload]
+      return newState
+    case LIKE_POST:
+      newState.posts = {...state.posts}
+      newState.posts[action.payload.postId].Likes.push(action.payload.userId)
       return newState
     default:
       return state

@@ -22,7 +22,7 @@ class Post(db.Model):
       return {
           'id': self.id,
           'User': self.user.post_to_dict(),
-          'Likes': self.likes,
+          'Likes': [like.getLikeUserId() for like in self.likes],
           'type': self.type,
           'body': self.body,
           'url': self.url,

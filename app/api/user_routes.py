@@ -31,7 +31,6 @@ def follow_user(id):
     form = FollowForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-      data = form.data
       new_follow = Follow(
         followee_id = id,
         follower_id = current_user.id
