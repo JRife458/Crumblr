@@ -28,3 +28,6 @@ class Post(db.Model):
           'url': self.url,
           'createdAt': self.created_at
       }
+
+    def likes_lst(self):
+        return [like.getLikeUserId() for like in self.likes]

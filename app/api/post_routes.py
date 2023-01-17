@@ -103,6 +103,8 @@ def like_post(id):
     post = Post.query.get(id)
     if not post:
         return {'error': 'Post not found'}
+    if current_user.id in post.likes_lst():
+        return {'error': 'User has already liked this post'}
     newLike = Like(
         user_id=current_user.id,
         post_id=id
@@ -113,6 +115,18 @@ def like_post(id):
         "userId": current_user.id,
         "postId": id
     })
+
+@post_routes.route('/<int:id>/likes', methods=["DELETE"])
+@login_required
+def unlike_post(id):
+    like = Like.query.filter(Like.post_id == id, Like.user_id == current_user.id).first()
+    if like:
+        db.session.delete(like)
+        db.session.commit()
+        return jsonify('Post Unliked')
+    else:
+        return jsonify({'error': 'No like found by user for this post'})
+
 
 @post_routes.route('/following')
 @login_required
