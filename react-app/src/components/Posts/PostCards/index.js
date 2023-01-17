@@ -12,7 +12,7 @@ function PostCards({post}) {
   let follows = []
   if (sessionUser?.Following) follows = Object.keys(sessionUser.Following)
   let likes = post?.Likes
-  let postLiked = likes.includes(sessionUser.id)
+  let postLiked = likes.includes(sessionUser?.id)
 
   let likeCount
   if (!likes.length) likeCount = 'No likes yet!'
@@ -73,7 +73,7 @@ function PostCards({post}) {
       <div className="post-body-container">
         <div className="post-likes-container">
           <h4 className="post-likes">{likeCount}</h4>
-          {likeButton}
+          {sessionUser && likeButton}
         </div>
         <p className="post-body">{post.body}</p>
       </div>
