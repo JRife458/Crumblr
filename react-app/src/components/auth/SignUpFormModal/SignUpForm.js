@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux'
-import { signUp } from '../../../store/sessionReducer';
+import { signUp, login } from '../../../store/sessionReducer';
 
 const SignUpForm = () => {
   const [errors, setErrors] = useState([]);
@@ -42,6 +42,11 @@ const SignUpForm = () => {
   const updateRepeatPassword = (e) => {
     setRepeatPassword(e.target.value);
   };
+
+  const demoUser = async (e) => {
+    e.preventDefault();
+    await dispatch(login('demo@aa.io', 'password'));
+  }
 
   return (
     <form onSubmit={onSignUp} className="signup-form">
@@ -95,6 +100,7 @@ const SignUpForm = () => {
       </div>
       </div>
       <button type='submit'>Sign Up</button>
+      <button onClick={demoUser}>Demo User</button>
     </form>
   );
 };
