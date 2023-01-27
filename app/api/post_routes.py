@@ -79,9 +79,7 @@ def edit_post(id):
 
     if form.validate_on_submit():
       data = form.data
-      post.type = data['type']
       post.body = data['body']
-      post.url = data['url']
       db.session.commit()
       return jsonify(post.to_dict())
     return jsonify('Error updating post.')

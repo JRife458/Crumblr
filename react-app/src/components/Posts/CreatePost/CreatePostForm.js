@@ -42,7 +42,8 @@ function PostCreateForm({setShowModal}) {
         setImageLoading(false)
         setShowModal(false)
       }
-      }
+    }
+    setImageLoading(false)
   }
 
   const updateImage = (e) => {
